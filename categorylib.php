@@ -83,7 +83,6 @@ function gradereport_print_category_content($categoryid=0, $displaylist=null, $f
 function gradereport_multigrader_print_category_info($category, $files = false) {
     global $CFG, $DB;
 
-    $coursecount = $DB->count_records('course') <= $CFG->frontpagecourselimit;
     $i = 0;
 
     $courses = get_courses($category->id, 'c.sortorder ASC', 'c.id,c.sortorder,c.visible,c.fullname,c.shortname');
@@ -95,7 +94,7 @@ function gradereport_multigrader_print_category_info($category, $files = false) 
         echo '<label class="dimmed">' . format_string($category->name) . '</label>';
     }
 
-    if ($files and $coursecount) {
+    if ($files) {
         if ($courses) {
             echo "<ul>\n";
             foreach ($courses as $course) {

@@ -47,7 +47,7 @@ function gradereport_multigrader_print_category($category = null, $displaylist =
         $category->id = "0";
     }
 
-    if ($categories = coursecat::get($category->id)->get_children()) {   // Print all the children recursively
+    if ($categories = core_course_category::get($category->id)->get_children()) {   // Print all the children recursively
         foreach ($categories as $cat) {
             gradereport_multigrader_print_category($cat, $displaylist, $depth + 1, $files);
             echo '</ul></li>';

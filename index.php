@@ -106,7 +106,11 @@ print_grade_page_head($COURSE->id, 'report', 'multigrader', $reportname, false);
 
 <?php
 
-echo '<br/><br/>';
+echo html_writer::start_tag('div');                   
+echo html_writer::tag('b', html_writer::link(new moodle_url('/admin/settings.php?section=gradereportmultigrader', []),'Preferences: Change report defaults'));
+echo html_writer::end_tag('div');
+
+echo '<br/>';
 
 echo '<form method="post" action="index.php">';
 echo '<div id="categorylist">';
@@ -150,29 +154,36 @@ if ($formsubmitted === "Yes") {
             if (has_capability('moodle/grade:viewall', $context)) {
                 if (has_capability('gradereport/multigrader:view', $context)) {
 
-                    echo '<br/><br/><hr/>';
-                    echo html_writer::tag('p', '<b><a href="' . $CFG->wwwroot . '/grade/report/grader/index.php?id=' . $thiscourse->id . '">' . $thiscourse->shortname . '</a></b>');
-                    echo '<br/>';
-                    $exportxlsurl = new moodle_url('/grade/export/xls/index.php', array('id' => $thiscourse->id));
+                    echo '<br/><hr/>';
+                    $categorylinks = core_course_category::get($thiscourse->category)->get_nested_name();
+                    $courselink = html_writer::link(new moodle_url('/course/view.php?id=', ['id' => $thiscourse->id]), format_string($thiscourse->shortname));
+                    $coursereportlink = html_writer::link(new moodle_url('/grade/report/grader/index.php?id=', ['id' => $thiscourse->id]), get_string('pluginname', 'gradereport_grader'));
+                    echo html_writer::start_tag('div');
+                    echo html_writer::tag('b',implode(' / ', [$categorylinks, $courselink, $coursereportlink]));
+                    echo html_writer::end_tag('div');
+                    
+                    //IDIOMA - disabled
+                    //$exportxlsurl = new moodle_url('/grade/export/xls/index.php', array('id' => $thiscourse->id));
                     $xlsicon = html_writer::img($CFG->wwwroot . '/grade/report/multigrader/pix/excel.gif',
                             get_string('xls:view', 'gradeexport_xls'));
-
-                    echo html_writer::div(html_writer::link($exportxlsurl, $xlsicon), 'export_padding');
+                    //IDIOMA - disabled
+                    //echo html_writer::div(html_writer::link($exportxlsurl, $xlsicon), 'export_padding');
                     $exportodsurl = new moodle_url('/grade/export/ods/index.php', array('id' => $thiscourse->id));
                     $odsicon = html_writer::img($CFG->wwwroot . '/grade/report/multigrader/pix/ods.gif',
                             get_string('ods:view', 'gradeexport_ods'));
-
-                    echo html_writer::div(html_writer::link($exportodsurl, $odsicon), 'export_padding');
+                    //IDIOMA - disabled
+                    //echo html_writer::div(html_writer::link($exportodsurl, $odsicon), 'export_padding');
                     $exportxmlurl = new moodle_url('/grade/export/xml/index.php', array('id' => $thiscourse->id));
                     $xmlicon = html_writer::img($CFG->wwwroot . '/grade/report/multigrader/pix/xml.gif',
                             get_string('xml:view', 'gradeexport_xml'));
-
-                    echo html_writer::div(html_writer::link($exportxmlurl, $xmlicon), 'export_padding');
+                    //IDIOMA - disabled
+                    //echo html_writer::div(html_writer::link($exportxmlurl, $xmlicon), 'export_padding');
                     $exporttxturl = new moodle_url('/grade/export/txt/index.php', array('id' => $thiscourse->id));
                     $txticon = html_writer::img($CFG->wwwroot . '/grade/report/multigrader/pix/text.gif',
                             get_string('txt:view', 'gradeexport_txt'));
+                    //IDIOMA - disabled
+                    //echo html_writer::div(html_writer::link($exporttxturl, $txticon), 'export_padding');
 
-                    echo html_writer::div(html_writer::link($exporttxturl, $txticon), 'export_padding');
                     $gpr = new grade_plugin_return(array('type' => 'report', 'plugin' => 'multigrader', 'courseid' => $courseid, 'page' => $page));
                     // Basic access checks.
                     $conditions = array("id" => $thiscourse->id);

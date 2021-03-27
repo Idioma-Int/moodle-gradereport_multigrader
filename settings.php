@@ -26,4 +26,10 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
+    /// Add settings for this module to the $settings object (it's already defined)
+    $settings->add(new admin_setting_configtext('grade_multigrader_studentsperpage', get_string('studentsperpage', 'grades'),
+                                            get_string('studentsperpage_help', 'grades'), 1000));
+
+    $settings->add(new admin_setting_configcheckbox('grade_multigrader_showuserimage', get_string('showuserimage', 'grades'),
+                                                get_string('showuserimage_help', 'grades'), 0));
 }

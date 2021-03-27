@@ -563,7 +563,8 @@ class grade_report_multigrader extends grade_report {
 
         $rows = array();
 
-        $showuserimage = $this->get_pref('showuserimage');
+        //$showuserimage = $this->get_pref('showuserimage');
+        $showuserimage = $CFG->grade_multigrader_showuserimage; //IDIOMA
 
         $strfeedback = $this->get_lang_string("feedback");
         $strgrade = $this->get_lang_string('grade');
@@ -745,8 +746,9 @@ class grade_report_multigrader extends grade_report {
                     $categorycell = new html_table_cell();
                     $categorycell->attributes['class'] = 'category ' . $catlevel;
                     $categorycell->colspan = $colspan;
-                    $categorycell->text = shorten_text($element['object']->get_name());
-                    $categorycell->text .= $this->get_collapsing_icon($element);
+                    //$categorycell->text = shorten_text($element['object']->get_name());
+                    //$categorycell->text .= $this->get_collapsing_icon($element);
+                    $categorycell->text = $element['object']->get_name();
                     $categorycell->header = true;
                     $categorycell->scope = 'col';
 
@@ -1479,15 +1481,18 @@ class grade_report_multigrader extends grade_report {
      * @return int The maximum number of students to display per page
      */
     public function get_students_per_page() {
-        global $USER;
+        global $USER, $CFG;
         static $studentsperpage = null;
 
         if ($studentsperpage === null) {
-            $originalstudentsperpage = $studentsperpage = $this->get_pref('studentsperpage');
+            //$originalstudentsperpage = $studentsperpage = $this->get_pref('studentsperpage');
+            $originalstudentsperpage = $studentsperpage = $CFG->grade_multigrader_studentsperpage; //IDIOMA
 
             // Will this number of students result in more fields that we are allowed?
             $maxinputvars = ini_get('max_input_vars');
             if ($maxinputvars !== false) {
+                //$studentsperpage = $maxinputvars; //IDIOMA - force
+
                 $fieldspergradeitem = 0; // The number of fields output per grade item for each student
 
                 if ($this->get_pref('quickgrading')) {
